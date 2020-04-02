@@ -8,15 +8,14 @@ import org.apache.parquet.schema.MessageType;
 import java.io.IOException;
 import java.util.List;
 
-public class CsvParquetWriter extends ParquetWriter<List<String>> {
+public class CustomParquetWriter extends ParquetWriter<List<String>> {
 
-    public CsvParquetWriter(
+    public CustomParquetWriter(
             Path file,
             MessageType schema,
             boolean enableDictionary,
             CompressionCodecName codecName
     ) throws IOException {
-
-        super(file, new CsvWriteSupport(schema), codecName, DEFAULT_BLOCK_SIZE, DEFAULT_PAGE_SIZE, enableDictionary, false);
+        super(file, new CustomWriteSupport(schema), codecName, DEFAULT_BLOCK_SIZE, DEFAULT_PAGE_SIZE, enableDictionary, false);
     }
 }

@@ -11,13 +11,13 @@ import org.apache.parquet.schema.MessageType;
 import java.util.HashMap;
 import java.util.List;
 
-public class CsvWriteSupport extends WriteSupport<List<String>> {
+public class CustomWriteSupport extends WriteSupport<List<String>> {
     MessageType schema;
     RecordConsumer recordConsumer;
     List<ColumnDescriptor> cols;
 
     // TODO: support specifying encodings and compression
-    CsvWriteSupport(MessageType schema) {
+    CustomWriteSupport(MessageType schema) {
         this.schema = schema;
         this.cols = schema.getColumns();
     }

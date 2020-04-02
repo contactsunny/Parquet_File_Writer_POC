@@ -1,6 +1,6 @@
 package com.contactsunny.poc.parquet_file_writer_poc;
 
-import com.contactsunny.poc.parquet_file_writer_poc.parquet.CsvParquetWriter;
+import com.contactsunny.poc.parquet_file_writer_poc.parquet.CustomParquetWriter;
 import org.apache.hadoop.fs.Path;
 import org.apache.parquet.hadoop.metadata.CompressionCodecName;
 import org.apache.parquet.schema.MessageType;
@@ -24,8 +24,8 @@ public class App implements CommandLineRunner {
     @Value("${schema.filePath}")
     private String schemaFilePath;
 
-    @Value("${output.filePath}")
-    private String outputPath;
+    @Value("${output.directoryPath}")
+    private String outputDirectoryPath;
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
@@ -38,7 +38,7 @@ public class App implements CommandLineRunner {
 
         List<List<String>> columns = getDataForFile();
         MessageType schema = getSchemaForParquetFile();
-        CsvParquetWriter writer = getParquetWriter(schema);
+        CustomParquetWriter writer = getParquetWriter(schema);
 
         for (List<String> column : columns) {
             logger.info("Writing line: " + column.toArray());
@@ -49,11 +49,11 @@ public class App implements CommandLineRunner {
         writer.close();
     }
 
-    private CsvParquetWriter getParquetWriter(MessageType schema) throws IOException {
-        String outputFilePath = outputPath + "/" + System.currentTimeMillis() + ".parquet";
+    private CustomParquetWriter getParquetWriter(MessageType schema) throws IOException {
+        String outputFilePath = outputDirectoryPath + "/" + System.currentTimeMillis() + ".parquet";
         File outputParquetFile = new File(outputFilePath);
         Path path = new Path(outputParquetFile.toURI().toString());
-        return new CsvParquetWriter(
+        return new CustomParquetWriter(
                 path, schema, false, CompressionCodecName.SNAPPY
         );
     }
